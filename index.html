@@ -38,16 +38,13 @@
       form.addEventListener("submit", async (e) => {
         e.preventDefault();
 
-        const email = document.getElementById("email").value;
+        const formData = new FormData(form);
         const webhookURL = "https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r";
 
         try {
           const res = await fetch(webhookURL, {
             method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email }),
+            body: formData,
           });
 
           if (res.ok) {
