@@ -1,95 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AutoMarketer Waitlist</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        padding: 40px;
-        background: #f9f9f9;
-        text-align: center;
-      }
-
-      h1 {
-        font-size: 2rem;
-        margin-bottom: 1rem;
-      }
-
-      form {
-        display: inline-block;
-        margin-top: 20px;
-      }
-
-      input[type="email"] {
-        padding: 10px;
-        font-size: 1rem;
-        width: 300px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-      }
-
-      button {
-        padding: 10px 20px;
-        font-size: 1rem;
-        border: none;
-        background-color: #6200ea;
-        color: white;
-        border-radius: 5px;
-        cursor: pointer;
-      }
-
-      button:hover {
-        background-color: #3700b3;
-      }
-
-      .message {
-        margin-top: 20px;
-        font-weight: bold;
-      }
-    </style>
-  </head>
-  <body>
-    <h1>Join the AutoMarketer Waitlist</h1>
-    <form id="waitlist-form">
-      <input type="email" id="email" placeholder="Enter your email" required />
-      <button type="submit">Join</button>
-    </form>
-    <div class="message" id="response-message"></div>
-
-<script>
-  const form = document.querySelector("form");
-
-  form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("email").value;
-    const webhookURL = "https://hook.us2.make.com/your-webhook-url"; // Replace with your real Make webhook URL
-
-    try {
-      const res = await fetch(webhookURL, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ email }), // Sends only the email
-      });
-
-      if (res.ok) {
-        alert("You're on the waitlist 🎉");
-        form.reset();
-      } else {
-        alert("Something went wrong. Try again!");
-      }
-    } catch (err) {
-      console.error(err);
-      alert("Error submitting. Check console.");
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AutoMarketer Waitlist</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
     }
-  });
-</script>
 
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Inter', sans-serif;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(270deg, #7b61ff, #b16cea, #ff6ec4, #6fe7dd);
+      background-size: 800% 800%;
+      animation: gradientShift 15s ease infinite;
+    }
 
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
 
-  </body>
+    .container {
+      background: rgba(0, 0, 0, 0.7);
+      padding: 40px 32px;
+      border-radius: 16px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    }
+
+    h1 {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 10px;
+    }
+
+    p.subtitle {
+      font-size: 15px;
+      font-weight: 400;
+      margin-bottom: 25px;
+      line-height: 1.5;
+      color: #dcdcdc;
+    }
+
+    input[type="email"] {
+      padding: 14px;
+      width: 100%;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      margin-bottom: 16px;
+      outline: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      background: linear-gradient(to right, #7b61ff, #b16cea);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s ease;
+    }
+
+    button:hover {
+      opacity: 0.9;
+    }
+
+    .success {
+      margin-top: 18px;
+      color: #57ff89;
+      font-weight: 600;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🚀 Join the AutoMarketer Waitlist</h1>
+    <p class="subtitle">
+      AutoMarketer is your personal AI-powered growth assistant.  
+      Automate lead gen, content, and outreach — all in one tool.  
+      Get early access before we launch.
+    </p>
+
+    <form>
+      <input type="email" id="email" placeholder="Enter your email" required />
+      <button type="submit">Join the Waitlist</button>
+    </form>
+
+    <p class="success">You're on the list! 🎉</p>
+  </div>
+
+  <script>
+    const form = document.querySelector("form");
+    const successMsg = document.querySelector(".success");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const webhookURL = "https://hook.us2.make.com/your-webhook-url"; // ⬅️ Replace with your webhook URL
+
+      try {
+        const res = await fetch(webhookURL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
+        });
+
+        if (res.ok) {
+          successMsg.style.display = "block";
+          form.reset();
+        } else {
+          alert("Something went wrong. Try again.");
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error submitting. Check console.");
+      }
+    });
+  </script>
+</body>
 </html>
