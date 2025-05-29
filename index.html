@@ -1,62 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>AutoMarketer</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-  </head>
-  <body class="bg-white text-gray-900 font-sans">
-    <div class="min-h-screen flex flex-col items-center justify-center px-4">
-      <h1 class="text-4xl font-bold mb-4 text-center">Marketing That Runs Itself</h1>
-      <p class="text-lg mb-6 text-center max-w-md">
-        AutoMarketer helps small business owners generate leads with done-for-you posts, auto-scheduling, and performance tracking.
-      </p>
-      <form id="waitlist-form" class="w-full max-w-sm">
-        <input
-          type="email"
-          id="email"
-          name="email"
-          placeholder="Enter your email"
-          class="w-full px-4 py-2 border border-gray-300 rounded mb-4"
-          required
-        />
-        <button
-          type="submit"
-          class="w-full bg-indigo-600 text-white font-bold py-2 px-4 rounded hover:bg-indigo-700"
-        >
-          Join the Waitlist
-        </button>
-      </form>
-      <p id="success-msg" class="hidden text-green-600 mt-4">You're on the list!</p>
-    </div>
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
 
-    <script>
-      const form = document.getElementById("waitlist-form");
-      const successMsg = document.getElementById("success-msg");
+  const email = document.getElementById("email").value;
+  const webhookURL = "https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r";
 
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
+  try {
+    const res = await fetch(webhookURL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email }),
+    });
 
-        const formData = new FormData(form);
-        const webhookURL = "https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r";
+    if (res.ok) {
+      console.log("Webhook sent!");
+    }
+  } catch (err) {
+    console.error("Error sending webhook:", err);
+  }
+});
 
-        try {
-          const res = await fetch(webhookURL, {
-            method: "POST",
-            body: formData,
-          });
-
-          if (res.ok) {
-            successMsg.classList.remove("hidden");
-            form.reset();
-          } else {
-            alert("Something went wrong. Try again later.");
-          }
-        } catch (err) {
-          alert("Error submitting form.");
-        }
-      });
-    </script>
-  </body>
-</html>
