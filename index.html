@@ -63,28 +63,32 @@
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
+
     const email = document.getElementById("email").value;
+    const webhookURL = "https://hook.us2.make.com/your-webhook-url"; // Replace with your real Make webhook URL
 
     try {
-      const res = await fetch("https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r", {
+      const res = await fetch(webhookURL, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email: email }),
+        body: JSON.stringify({ email }), // Sends only the email
       });
 
       if (res.ok) {
-        alert("You're on the list! 🎉");
+        alert("You're on the waitlist 🎉");
         form.reset();
       } else {
-        alert("Something went wrong. Try again.");
+        alert("Something went wrong. Try again!");
       }
     } catch (err) {
-      alert("Error: " + err.message);
+      console.error(err);
+      alert("Error submitting. Check console.");
     }
   });
 </script>
+
 
 
   </body>
