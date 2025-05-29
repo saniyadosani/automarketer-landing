@@ -5,93 +5,91 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>AutoMarketer Waitlist</title>
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(-45deg, #7f00ff, #e100ff, #00c6ff, #0072ff);
+      padding: 0;
+      font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background: linear-gradient(-45deg, #3b82f6, #9333ea, #ec4899, #f97316);
       background-size: 400% 400%;
-      animation: gradientBG 15s ease infinite;
+      animation: gradient 15s ease infinite;
+      color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      height: 100vh;
-      color: white;
+      min-height: 100vh;
+      padding: 20px;
       text-align: center;
     }
 
-    @keyframes gradientBG {
+    @keyframes gradient {
       0% { background-position: 0% 50%; }
       50% { background-position: 100% 50%; }
       100% { background-position: 0% 50%; }
     }
 
     h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      margin-bottom: 0.5rem;
+      font-size: 2.8rem;
+      margin-bottom: 0.5em;
     }
 
     p {
-      font-size: 1.25rem;
-      margin-bottom: 2rem;
-    }
-
-    form {
-      display: flex;
-      gap: 0.5rem;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
+      font-size: 1.2rem;
+      margin-bottom: 2em;
+      max-width: 600px;
     }
 
     input[type="email"] {
-      padding: 0.75rem 1rem;
-      font-size: 1rem;
-      border-radius: 8px;
+      padding: 0.7em;
       border: none;
+      border-radius: 8px;
       width: 250px;
-      max-width: 90%;
+      margin-right: 10px;
+      font-size: 1rem;
     }
 
     button {
-      background-color: #fff;
-      color: #7f00ff;
+      padding: 0.7em 1.2em;
       border: none;
-      padding: 0.75rem 1.5rem;
-      font-size: 1rem;
-      font-weight: bold;
       border-radius: 8px;
+      background-color: #8b5cf6;
+      color: white;
+      font-weight: bold;
+      font-size: 1rem;
       cursor: pointer;
       transition: background 0.3s ease;
     }
 
     button:hover {
-      background-color: #f3f3f3;
+      background-color: #7c3aed;
     }
 
-    .success {
-      margin-top: 1.5rem;
+    #confirmation {
+      margin-top: 1.5em;
       font-weight: bold;
-      color: #bfffbc;
+      color: #bbf7d0;
+      font-size: 1.1rem;
     }
   </style>
 </head>
 <body>
-
   <h1>Join the AutoMarketer Waitlist</h1>
-  <p>Be the first to access automated growth tools built for creators and solopreneurs. 🚀</p>
+  <p>Be the first to get access to the only marketing tool that automates outreach, content, and follow-ups for creators and founders.</p>
 
   <form id="waitlist-form">
     <input type="email" id="email" placeholder="Enter your email" required />
     <button type="submit">Join</button>
   </form>
 
-  <div id="success" class="success" style="display: none;">You're on the list! 🎉</div>
+  <div id="confirmation"></div>
 
   <script>
     const form = document.getElementById("waitlist-form");
-    const success = document.getElementById("success");
+    const confirmation = document.getElementById("confirmation");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -101,19 +99,19 @@
         const res = await fetch("https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email })
+          body: JSON.stringify({ email }),
         });
 
         if (res.ok) {
-          form.style.display = "none";
-          success.style.display = "block";
+          confirmation.textContent = "You're on the list! 🎉";
         } else {
-          alert("There was an error. Please try again later.");
+          confirmation.textContent = "Oops, something went wrong.";
         }
       } catch (err) {
-        console.error(err);
-        alert("Something went wrong.");
+        confirmation.textContent = "Network error. Try again later.";
       }
+
+      form.reset();
     });
   </script>
 </body>
