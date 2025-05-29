@@ -58,31 +58,34 @@
     </form>
     <div class="message" id="response-message"></div>
 
-  <script>
+<script>
   const form = document.querySelector("form");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
     const email = document.getElementById("email").value;
 
-    const res = await fetch("https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ email }),
-    });
+    try {
+      const res = await fetch("https://hook.us2.make.com/9flu3o3f31m609oyyouuohu5ngs3hw7r", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email: email }),
+      });
 
-    if (res.ok) {
-      document.getElementById("message").textContent = "You're on the list! 🎉";
-      document.getElementById("message").style.color = "green";
-      form.reset();
-    } else {
-      document.getElementById("message").textContent = "Something went wrong. Try again.";
-      document.getElementById("message").style.color = "red";
+      if (res.ok) {
+        alert("You're on the list! 🎉");
+        form.reset();
+      } else {
+        alert("Something went wrong. Try again.");
+      }
+    } catch (err) {
+      alert("Error: " + err.message);
     }
   });
 </script>
+
 
   </body>
 </html>
